@@ -1,0 +1,145 @@
+{
+	"info": {
+		"name": "Titanbay Private Markets API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3000"
+		},
+		{
+			"key": "fundId",
+			"value": ""
+		},
+		{
+			"key": "investorId",
+			"value": ""
+		}
+	],
+	"item": [
+		{
+			"name": "Health",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/health"
+					}
+				}
+			]
+		},
+		{
+			"name": "Funds",
+			"item": [
+				{
+					"name": "List all funds",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/funds"
+					}
+				},
+				{
+					"name": "Get a specific fund",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/funds/{{fundId}}"
+					}
+				},
+				{
+					"name": "Create a new fund",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/funds",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Titanbay Growth Fund II\",\n  \"vintage_year\": 2025,\n  \"target_size_usd\": 500000000.00,\n  \"status\": \"Fundraising\"\n}"
+						}
+					}
+				},
+				{
+					"name": "Update an existing fund",
+					"request": {
+						"method": "PUT",
+						"url": "{{baseUrl}}/funds",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"id\": \"{{fundId}}\",\n  \"name\": \"Titanbay Growth Fund I\",\n  \"vintage_year\": 2024,\n  \"target_size_usd\": 300000000.00,\n  \"status\": \"Investing\"\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Investors",
+			"item": [
+				{
+					"name": "List all investors",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/investors"
+					}
+				},
+				{
+					"name": "Create a new investor",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/investors",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"CalPERS\",\n  \"investor_type\": \"Institution\",\n  \"email\": \"privateequity@calpers.ca.gov\"\n}"
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Investments",
+			"item": [
+				{
+					"name": "List all investments for a specific fund",
+					"request": {
+						"method": "GET",
+						"url": "{{baseUrl}}/funds/{{fundId}}/investments"
+					}
+				},
+				{
+					"name": "Create a new investment to a fund",
+					"request": {
+						"method": "POST",
+						"url": "{{baseUrl}}/funds/{{fundId}}/investments",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"investor_id\": \"{{investorId}}\",\n  \"amount_usd\": 75000000.00,\n  \"investment_date\": \"2024-09-22\"\n}"
+						}
+					}
+				}
+			]
+		}
+	]
+}
