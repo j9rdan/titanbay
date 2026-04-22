@@ -38,16 +38,16 @@ cp .env.example .env
 docker compose up -d
 ```
 
-### 5. Run the schema migration
+### 5. Setup the database schema
 
 ```bash
-docker exec -i titanbay-db-1 psql -U postgres -d titanbay < schema.sql
+docker compose exec -T db psql -U postgres -d titanbay < schema.sql
 ```
 
 ### 6. Seed sample data
 
 ```bash
-docker exec -i titanbay-db-1 psql -U postgres -d titanbay < seed.sql
+docker compose exec -T db psql -U postgres -d titanbay < seed.sql
 ```
 
 ### 7. Start the server
@@ -67,7 +67,7 @@ The API will be available at `http://localhost:3000`.
 Connect to the database shell:
 
 ```bash
-docker exec -it titanbay-db-1 psql -U postgres -d titanbay
+docker compose exec db psql -U postgres -d titanbay
 ```
 
 Useful psql commands once connected:
@@ -107,9 +107,9 @@ The full API spec is available [here](https://storage.googleapis.com/interview-a
 
 ### Sample Requests
 
-A Postman collection is included in the project root (`postman_collection.json`). Import it into Postman to run all endpoints with pre-configured requests against the seed data.
+A Postman collection is included in the project root (`postman_collection.json`). Import it into Postman to run all endpoints with pre-configured requests.
 
-`fundId` and `investorId` need to be set from the seed data.
+After seeding, run `GET /funds` and `GET /investors` to retrieve the generated UUIDs and set them as the `fundId` and `investorId` collection variables.
 
 ---
 
@@ -162,7 +162,7 @@ Integration tests are used over unit tests because the service layer is thin and
 Create the test database before running tests:
 
 ```bash
-docker exec -it titanbay-db-1 psql -U postgres
+docker compose exec db psql -U postgres
 ```
 
 ```sql
@@ -193,15 +193,15 @@ The following are known limitations, intentional by design given the scope of th
 
 - Add authentication and authorisation (e.g. OAuth)
 - Introduce a migration tool (e.g. Prisma Migrate) to version schema changes
-- Add pagination, sort and filtering to list endpoints
+- Add pagination, sorting and filtering to list endpoints
 
 ---
 
-## Supporting Tools
+## AI & Supporting Tools
 
 This project was built with the assistance of the following tools:
 
-**[Claude (Anthropic)](https://claude.ai)** via Claude Code, used for:
+**[Claude (Anthropic)](https://claude.ai)** via claude.ai and the Claude VS Code extension, used for:
 
 - Generating DBML based on defined constraints per table for exporting data models into PostgreSQL
 - Project scaffolding (setting up Docker, PostgreSQL and repository structure)
